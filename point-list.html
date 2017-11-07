@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="math.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script type="text/javascript" src="point-list.js"></script>
+    <style type="text/css">
+      body {
+        font-family: monospace;
+      }
+      #map {
+        width: 400px;
+        height: 400px;
+        display: inline-block;
+      }
+      #input {
+        height: 400px;
+        width: calc(100% - 430px);
+        display: inline-block;
+        margin-left: 10px;
+      }
+      textarea {
+        width: 100%;
+        height: calc(100% - 30px);
+        font-family: monospace;
+        font-size: 13px;
+      }
+      h2 {
+        margin-bottom: 2px;
+      }
+      #output {
+        font-family: monospace;
+        white-space: nowrap;
+        padding: 10px;
+        border: 1px solid #f2f2f2;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="input">
+      <h2>List of Lat/Lng</h2>
+      <textarea id="list"></textarea>
+      <div style="text-align: right;">
+        <button onclick="go()">Start</button>
+      </div>
+    </div>
+
+    <h2>Results</h2>
+    <div id="output"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcNAMYG7j1KTO6HApbInCDjzNKaxk8dx4&callback=initMap" async defer></script>
+  </body>
+</html>

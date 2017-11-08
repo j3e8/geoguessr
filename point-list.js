@@ -1,24 +1,53 @@
 var NUM_POINTS = 5000;
+var PAUSED = undefined;
 
 var goodPoints = [];
 var badPoints = [];
 var LIST;
 
 function go() {
+  if (PAUSED === undefined) {
+    init();
+    start();
+  }
+  else if (PAUSED) {
+    start();
+  }
+  else {
+    stop();
+  }
+}
+
+function init() {
   var inp = document.getElementById('list').value;
   if (!inp) {
     return;
   }
   try {
     LIST = JSON.parse(inp);
-    getNextPoint(LIST);
   } catch (ex) {
     console.error("Error", ex);
     return;
   }
 }
 
+function start() {
+  document.getElementById('button').innerText = 'Stop';
+  PAUSED = false;
+  setTimeout(function() {
+    getNextPoint(LIST);
+  }, 10);
+}
+
+function stop() {
+  PAUSED = true;
+  document.getElementById('button').innerText = 'Start';
+}
+
 function getNextPoint() {
+  if (PAUSED) {
+    return;
+  }
   if (!LIST.length) {
     console.log('done');
     Geo.outputResults(goodPoints);

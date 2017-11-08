@@ -1,4 +1,5 @@
-var NUM_POINTS = 5000;
+var NUM_POINTS = 1;
+var PAUSED = undefined;
 
 var goodPoints = [];
 var badPoints = [];
@@ -6,6 +7,19 @@ var badPoints = [];
 var SELECTED_REGION;
 
 function go() {
+  if (PAUSED === undefined) {
+    init();
+    start();
+  }
+  else if (PAUSED) {
+    start();
+  }
+  else {
+    stop();
+  }
+}
+
+function init() {
   var inp = document.getElementById('polygon').value;
   if (!inp) {
     return;
@@ -19,28 +33,42 @@ function go() {
     console.error("Error", ex);
     return;
   }
+  NUM_POINTS = document.getElementById('num_points').value;
+}
+
+function start() {
+  document.getElementById('button').innerText = 'Stop';
+  PAUSED = false;
   setTimeout(function() {
     getRandomPoint(SELECTED_REGION);
-  }, 0);
+  }, 10);
+}
+
+function stop() {
+  PAUSED = true;
+  document.getElementById('button').innerText = 'Start';
 }
 
 function getRandomPoint(region) {
+  if (PAUSED) {
+    return;
+  }
   var r = Math.floor(Math.random() * region.polygons.length);
   var polygon = region.polygons[r];
   while (true) {
     var lat = Math.random() * (polygon.bounds.maxlat - polygon.bounds.minlat) + polygon.bounds.minlat;
     var lng = Math.random() * (polygon.bounds.maxlng - polygon.bounds.minlng) + polygon.bounds.minlng;
     if (Geo.Math.latLngInsidePolygon(lat, lng, polygon) && Geo.latLngFarFromBadPoints(lat, lng, badPoints) && Geo.latLngFarFromGoodPoints(lat, lng, goodPoints)) {
-      Geo.searchPoint(lat, lng, handleChosenPoint, handleFailedPoint);
+      Geo.searchPoint(lat, lng, handleChosenPoint.bind(this, polygon), handleFailedPoint);
       break;
     }
   }
 }
 
-function handleChosenPoint(lat, lng) {
-  if (Geo.latLngFarFromGoodPoints(lat, lng, goodPoints)) {
+function handleChosenPoint(polygon, lat, lng) {
+  if (Geo.Math.latLngInsidePolygon(lat, lng, polygon) && Geo.latLngFarFromGoodPoints(lat, lng, goodPoints)) {
     goodPoints.push({ lat: lat, lng: lng });
-    console.log(goodPoints.length, lat, lng);
+    // console.log(goodPoints.length, lat, lng);
     Geo.outputResults(goodPoints);
     Geo.map.setCenter(new google.maps.LatLng(lat, lng));
   }

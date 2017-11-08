@@ -35,6 +35,9 @@
         border: 1px solid #f2f2f2;
         font-size: 13px;
       }
+      #stop {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -43,11 +46,12 @@
       <h2>Polygon</h2>
       <textarea id="polygon"></textarea>
       <div style="text-align: right;">
-        <button onclick="go()">Start</button>
+        <input type="number" value="1000" step="100" min="100" max="10000" id="num_points">
+        <button id="button" onclick="go()">Start</button>
       </div>
     </div>
 
-    <h2>Results</h2>
+    <h2>Results <span id="count"></span></h2>
     <div id="output"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcNAMYG7j1KTO6HApbInCDjzNKaxk8dx4&callback=initMap" async defer></script>
   </body>

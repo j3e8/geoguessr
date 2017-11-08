@@ -16,10 +16,17 @@ initMap = function() {
 }
 
 Geo.outputResults = function(coords) {
-  var str = coords.map(function(g) {
-    return '{ "lat":' + g.lat + ', "lng":' + g.lng + '}';
-  }).join(',<br>');
-  document.getElementById('output').innerHTML = '[<br>' + str + '<br>]';
+  var output = document.getElementById('output');
+  if (output) {
+    var str = coords.map(function(g) {
+      return '{ "lat":' + g.lat + ', "lng":' + g.lng + '}';
+    }).join(',<br>');
+    output.innerHTML = '[<br>' + str + '<br>]';
+  }
+  var count = document.getElementById('count');
+  if (count) {
+    count.innerHTML = coords.length;
+  }
 }
 
 Geo.latLngFarFromBadPoints = function(lat, lng, badPoints) {

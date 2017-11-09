@@ -24,7 +24,7 @@ var _map = findObjectByName('_map', window, 'window');
 _map.setZoom(14);
 
 var counter = 0;
-var TIME_BETWEEN_CLICKS = 250;
+var TIME_BETWEEN_CLICKS = 400;
 function processPoint() {
   if (!coords.length) {
     return;

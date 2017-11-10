@@ -1,5 +1,6 @@
 var NUM_POINTS = 1;
 var PAUSED = undefined;
+var FIND_PANO_WITHIN = 70000; // meters
 
 var goodPoints = [];
 var badPoints = [];
@@ -59,7 +60,7 @@ function getRandomPoint(region) {
     var lat = Math.random() * (polygon.bounds.maxlat - polygon.bounds.minlat) + polygon.bounds.minlat;
     var lng = Math.random() * (polygon.bounds.maxlng - polygon.bounds.minlng) + polygon.bounds.minlng;
     if (Geo.Math.latLngInsidePolygon(lat, lng, polygon) && Geo.latLngFarFromBadPoints(lat, lng, badPoints) && Geo.latLngFarFromGoodPoints(lat, lng, goodPoints)) {
-      Geo.searchPoint(lat, lng, handleChosenPoint.bind(this, polygon), handleFailedPoint);
+      Geo.searchPoint(lat, lng, FIND_PANO_WITHIN, handleChosenPoint.bind(this, polygon), handleFailedPoint);
       break;
     }
   }

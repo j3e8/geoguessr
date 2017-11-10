@@ -2,7 +2,6 @@ if (!window.Geo) {
   window.Geo = {};
 }
 Geo.map = null;
-Geo.FIND_PANO_WITHIN = 70000; // meters
 Geo.TOO_CLOSE_TO_PREVIOUS_BAD_POINT = 100; // meters
 Geo.TOO_CLOSE_TO_PREVIOUS_POINT = 1000; // meters
 Geo.M_PER_LNG_AT_EQUATOR = 111321.543; // meters
@@ -62,9 +61,9 @@ Geo.checkNearestStreetView = function(randLat, randLng, success, failure, panoDa
   }
 }
 
-Geo.searchPoint = function(lat, lng, success, failure) {
+Geo.searchPoint = function(lat, lng, tolerance, success, failure) {
   var astorPlace = new google.maps.LatLng(lat, lng);
   var webService = new google.maps.StreetViewService();
-  var checkaround = Geo.FIND_PANO_WITHIN;
+  var checkaround = tolerance;
   webService.getPanoramaByLocation(astorPlace, checkaround, Geo.checkNearestStreetView.bind(this, lat, lng, success, failure));
 }

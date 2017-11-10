@@ -1,5 +1,6 @@
 var NUM_POINTS = 5000;
 var PAUSED = undefined;
+var FIND_PANO_WITHIN = 50; // meters
 
 var goodPoints = [];
 var badPoints = [];
@@ -54,7 +55,7 @@ function getNextPoint() {
     return;
   }
   var coord = LIST.splice(0, 1)[0];
-  Geo.searchPoint(coord.lat, coord.lng, handleChosenPoint, handleFailedPoint);
+  Geo.searchPoint(coord.lat, coord.lng, FIND_PANO_WITHIN, handleChosenPoint, handleFailedPoint);
 }
 
 function handleChosenPoint(lat, lng) {
